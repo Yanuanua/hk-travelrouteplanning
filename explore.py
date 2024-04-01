@@ -88,17 +88,6 @@ def plan_route(start_spot, total_spots, max_time, themes):
         current_spot = next_spot
     
     return route, total_time
-    
-page_bg_img = '''
-<style>
-body {
-background-image: url("https://raw.githubusercontent.com/Yanuanua/hk-travelrouteplanning/main/Victoria%20Harbour.jpg");
-background-size: cover;
-}
-</style>
-'''
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
 
 spots = {
     'aa': {'time': 2, 'themes': ['自然', '休闲']},
