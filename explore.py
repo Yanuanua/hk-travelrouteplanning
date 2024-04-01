@@ -107,17 +107,15 @@ spots = {
     'nn': {'time': 3, 'themes': ['体育', '购物']}
 }
 
-# 添加背景图像和渐变颜色的CSS样式
 page_bg_img = '''
 <style>
 body {
-background-image: url("https://raw.githubusercontent.com/Yanuanua/hk-travelrouteplanning/main/Victoria%20Harbour.jpg");
+background-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
 background-size: cover;
 }
 </style>
 '''
 
-# 在Streamlit应用中渲染背景图像和渐变颜色的CSS样式
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title('Plan Your HK Travel Route!')
