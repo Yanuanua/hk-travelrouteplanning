@@ -1,10 +1,5 @@
 import streamlit as st
-docker/login-action@v2
-  with:
-    registry: ghcr.io
-    username: Yanuanua
-    ecr: auto
-    logout: true
+
 def plan_route(start_spot, total_spots, max_time, themes):
     spots = {
         'aa': {'time': 2, 'themes': ['自然', '休闲']},
