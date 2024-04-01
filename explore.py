@@ -1,5 +1,5 @@
 import streamlit as st
-Run docker/login-action@v2
+docker/login-action@v2
   with:
     registry: ghcr.io
     username: Yanuanua
