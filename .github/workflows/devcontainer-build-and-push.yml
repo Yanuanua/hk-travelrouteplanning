@@ -31,6 +31,7 @@ jobs:
         with:
           registry: ghcr.io
           username: Yanuanua
+          password: zy19711026ZY
           ecr: auto
           logout: true
           subFolder: .github
