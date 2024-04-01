@@ -89,25 +89,28 @@ def plan_route(start_spot, total_spots, max_time, themes):
     
     return route, total_time
 
-def main():
-    spots = {
-        'aa': {'time': 2, 'themes': ['自然', '休闲']},
-        'bb': {'time': 1, 'themes': ['人文', '城市']},
-        'cc': {'time': 3, 'themes': ['购物', '休闲']},
-        'dd': {'time': 2, 'themes': ['美食', '自然']},
-        'ee': {'time': 1, 'themes': ['宗教', '自然']},
-        'ff': {'time': 2, 'themes': ['游乐园']},
-        'gg': {'time': 2, 'themes': ['体育', '休闲']},
-        'hh': {'time': 3, 'themes': ['自然']},
-        'ii': {'time': 2, 'themes': ['人文', '城市']},
-        'jj': {'time': 1, 'themes': ['购物', '人文']},
-        'kk': {'time': 2, 'themes': ['美食', '休闲']},
-        'll': {'time': 1, 'themes': ['宗教']},
-        'mm': {'time': 2, 'themes': ['游乐园', '城市']},
-        'nn': {'time': 3, 'themes': ['体育', '购物']}
-    }
-    st.title('旅游路线规划')
 
+spots = {
+    'aa': {'time': 2, 'themes': ['自然', '休闲']},
+    'bb': {'time': 1, 'themes': ['人文', '城市']},
+    'cc': {'time': 3, 'themes': ['购物', '休闲']},
+    'dd': {'time': 2, 'themes': ['美食', '自然']},
+    'ee': {'time': 1, 'themes': ['宗教', '自然']},
+    'ff': {'time': 2, 'themes': ['游乐园']},
+    'gg': {'time': 2, 'themes': ['体育', '休闲']},
+    'hh': {'time': 3, 'themes': ['自然']},
+    'ii': {'time': 2, 'themes': ['人文', '城市']},
+    'jj': {'time': 1, 'themes': ['购物', '人文']},
+    'kk': {'time': 2, 'themes': ['美食', '休闲']},
+    'll': {'time': 1, 'themes': ['宗教']},
+    'mm': {'time': 2, 'themes': ['游乐园', '城市']},
+    'nn': {'time': 3, 'themes': ['体育', '购物']}
+}
+
+st.title('旅游路线规划')
+selected_option = st.selectbox('请选择一个功能', ['功能1', '功能2'])
+if selected_option == '功能1':
+    st.subheader('功能1页面')
     start_spot = st.selectbox('选择起始景点', list(spots.keys()))
     total_spots = st.slider('选择总景点数', min_value=1, max_value=len(spots))
     max_time = st.slider('选择最大时间', min_value=1)
@@ -117,5 +120,5 @@ def main():
         result = plan_route(start_spot, total_spots, max_time, themes)
         st.write(f"Route: {result[0]}")
         st.write(f"Total Time: {result[1]}")
-if __name__ == '__main__':
-    main()
+else:
+    st.subheader('功能2页面')
