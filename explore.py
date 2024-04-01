@@ -107,6 +107,19 @@ spots = {
     'nn': {'time': 3, 'themes': ['体育', '购物']}
 }
 
+#背景图片
+st.markdown(
+    """
+    <style>
+    body {
+        background-image: url("Victoria Harbour.jpg");
+        background-size: cover;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title('Plan Your HK Travel Route!')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
