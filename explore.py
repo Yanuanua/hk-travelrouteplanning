@@ -92,7 +92,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
 page_bg_img = '''
 <style>
 body {
-background-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
+background-image: url("https://raw.githubusercontent.com/Yanuanua/hk-travelrouteplanning/main/Victoria%20Harbour.jpg");
 background-size: cover;
 }
 </style>
