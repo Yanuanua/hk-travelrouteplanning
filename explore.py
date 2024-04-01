@@ -107,18 +107,18 @@ spots = {
     'nn': {'time': 3, 'themes': ['体育', '购物']}
 }
 
-st.title('旅游路线规划')
-selected_option = st.selectbox('请选择一个功能', ['功能1', '功能2'])
-if selected_option == '功能1':
-    st.subheader('功能1页面')
-    start_spot = st.selectbox('选择起始景点', list(spots.keys()))
-    total_spots = st.slider('选择总景点数', min_value=1, max_value=len(spots))
-    max_time = st.slider('选择最大时间', min_value=1)
-    themes = st.multiselect('选择主题', list(set(theme for spot in spots.values() for theme in spot['themes'])))
+st.title('Plan Your HK Travel Route!')
+selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
+if selected_option == 'Method 1':
+    st.subheader('Method 1')
+    start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
+    total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
+    max_time = st.slider('Please choose the time you expect to travel.', min_value=1)
+    themes = st.multiselect('Please choose the theme(s) you are interested in (more than one can be chosen).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
 
-    if st.button('生成路线'):
+    if st.button('Generate your travel route!'):
         result = plan_route(start_spot, total_spots, max_time, themes)
         st.write(f"Route: {result[0]}")
         st.write(f"Total Time: {result[1]}")
 else:
-    st.subheader('功能2页面')
+    st.subheader('Method 2')
