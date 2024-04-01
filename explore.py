@@ -111,7 +111,7 @@ spots = {
 page_bg_img = '''
 <style>
 body {
-background-image: url("Victoria Harbour.jpg");
+background-image: url("hk-travelrouteplanning/Victoria Harbour.jpg");
 background-size: cover;
 }
 </style>
