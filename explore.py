@@ -109,7 +109,7 @@ spots = {
 
 st.title('Plan Your HK Travel Route!')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
-if selected_option == 'Method 1':
+if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
