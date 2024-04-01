@@ -117,3 +117,5 @@ def main():
         result = plan_route(start_spot, total_spots, max_time, themes)
         st.write(f"Route: {result[0]}")
         st.write(f"Total Time: {result[1]}")
+if __name__ == '__main__':
+    main()
