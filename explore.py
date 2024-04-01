@@ -107,18 +107,18 @@ spots = {
     'nn': {'time': 3, 'themes': ['体育', '购物']}
 }
 
-#背景图片
-st.markdown(
-    """
-    <style>
-    body {
-        background-image: url("Victoria Harbour.jpg");
-        background-size: cover;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# 添加背景图像和渐变颜色的CSS样式
+page_bg_img = '''
+<style>
+body {
+background-image: url("Victoria Harbour.jpg");
+background-size: cover;
+}
+</style>
+'''
+
+# 在Streamlit应用中渲染背景图像和渐变颜色的CSS样式
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title('Plan Your HK Travel Route!')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
