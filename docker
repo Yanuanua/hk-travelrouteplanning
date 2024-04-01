@@ -1,6 +1,0 @@
-Run docker/login-action@v2
-  with:
-    registry: ghcr.io
-    username: Yanuanua
-    ecr: auto
-    logout: true
