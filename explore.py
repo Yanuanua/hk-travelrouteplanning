@@ -111,7 +111,7 @@ spots = {
 page_bg_img = '''
 <style>
 body {
-background-image: url("https://www.discoverhongkong.com/content/dam/dhk/intl/explore/attractions/best-ways-to-marvel-at-iconic-victoria-harbour/best-ways-to-marvel-at-iconic-victoria-harbour-1920x1080.jpg");
+background-image: url("https://raw.githubusercontent.com/Yanuanua/hk-travelrouteplanning/main/Victoria%20Harbour.jpg");
 background-size: cover;
 }
 </style>
