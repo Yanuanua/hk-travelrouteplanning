@@ -25,16 +25,4 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.REGISTRY_TOKEN }}
-    -
-        name: Pre-build dev container image
-        uses: devcontainers/ci@v0.2
-        with:
-          registry: ghcr.io
-          username: Yanuanua
-          password: zy19711026ZY
-          ecr: auto
-          logout: true
-          subFolder: .github
-          imageName: ghcr.io/${{ github.repository }}
-          cacheFrom: ghcr.io/${{ github.repository }}
-          push: always
+          
