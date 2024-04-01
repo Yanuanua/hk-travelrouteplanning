@@ -118,7 +118,7 @@ spots = {
 }
 
 
-st.title('Plan Your HK Travel Route!')
+st.title('Plan Your HK Travel Route ^_^')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
