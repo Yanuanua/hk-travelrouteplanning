@@ -1,4 +1,5 @@
 import streamlit as st
+st.balloons()
 
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
@@ -89,7 +90,6 @@ probabilities = {
     'nn': {'aa': 0.2, 'bb': 0.23, 'cc': 0.1, 'dd': 0.5, 'ee': 0.25, 'ff': 0.3, 'gg': 0.1, 'hh': 0.4, 'ii': 0.2, 'jj': 0.45, 'kk': 0.1, 'll': 0.32, 'mm': 0.22}
 }
 
-st.balloons()
 st.title('Plan Your HK Travel Route ^_^')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 
