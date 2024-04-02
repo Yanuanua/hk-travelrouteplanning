@@ -110,11 +110,13 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.write("You picked", lat, lon)
     new_line = '\n'
     for spot, info in spots_locations.items():
+        icon_text = spot
+        icon = folium.features.CustomIcon(icon_text, icon_size=(100, 20))
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
             popup=f"{spot}{new_line}for {info['themes']}",
             tooltip=tooltip,
-            icon=spot
+            icon=icon
         ).add_to(m)
     points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
     folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
