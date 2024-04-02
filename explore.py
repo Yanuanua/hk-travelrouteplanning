@@ -100,15 +100,15 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     st.subheader('Method 1')
     
     spots_locations = {
-    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773},
-    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969}
+    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773, "themes": ["Nature"]},
+    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969, "themes": ["Citywalk"]}
     }
-    m = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
+    m = folium.Map(location=[22.28056, 114.17222], zoom_start=14)
     tooltip = "Click me!"
-    for spot, loc in spots_locations.items():
+    for spot, info in spots_locations.items():
         folium.Marker(
-            location=[loc["latitude"], loc["longitude"]],
-            popup=spot,
+            location=[info["latitude"], info["longitude"]],
+            popup=f"Name: {spot} Tag: {info["themes"]}",
             tooltip=tooltip
         ).add_to(m)
     folium_static(m)
