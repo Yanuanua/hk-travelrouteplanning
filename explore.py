@@ -92,6 +92,38 @@ probabilities = {
 st.title('Plan Your HK Travel Route ^_^')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 
+
+m = folium.Map(location=[22.28056, 114.17222], zoom_start=5)
+
+fg = folium.FeatureGroup(name="State bounds")
+fg.add_child(folium.features.GeoJson(bounds))
+
+spots_locations = {
+    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773},
+    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969}
+}
+
+for spot in spots_locations:
+    fg.add_child(
+        folium.Marker(
+            location=[spot["latitude"], spot["longitude"],
+            #popup=f"{capital.capital}, {capital.state}",
+            #tooltip=f"{capital.capital}, {capital.state}",
+            icon=folium.Icon(color="yellow")
+            #if capital.state == st.session_state["selected_state"]
+            #else None,
+        )
+    )
+
+out = st_folium(
+    m,
+    feature_group_to_add=fg,
+    center=center,
+    width=1200,
+    height=500,
+)
+
+
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
