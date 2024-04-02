@@ -95,31 +95,27 @@ probabilities = {
 st.title('Plan Your HK Travel Route ^_^')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 
-spots_locations = {
-    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773},
-    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969}
-}
-
-m = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
-
-#tooltip = "Click me!"
-
-for spot, loc in spots_locations.items():
-    folium.Marker(
-        location=[loc["latitude"], loc["longitude"]],
-        popup=spot,
-        tooltip=tooltip
-    ).add_to(m)
-
-folium_static(m)
-
-if m.get_name() == "map":
-    lat, lon = st.latlon_picker("Pick a location", marker=marker)
-    st.write("You picked", lat, lon)
-
 
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
+    
+    spots_locations = {
+    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773},
+    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969}
+    }
+    m = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
+    tooltip = "Click me!"
+    for spot, loc in spots_locations.items():
+        folium.Marker(
+            location=[loc["latitude"], loc["longitude"]],
+            popup=spot,
+            tooltip=tooltip
+        ).add_to(m)
+    folium_static(m)
+    if m.get_name() == "map":
+        lat, lon = st.latlon_picker("Pick a location", marker=marker)
+        st.write("You picked", lat, lon)
+
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     max_time = st.slider('Please choose the time you expect to travel.', min_value=1, max_value=30)
