@@ -104,7 +104,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969, "themes": ["Citywalk"]}
     }
     m = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-    tooltip = ""
+    tooltip = "Click Me!"
     if m.get_name() == "map":
         lat, lon = st.latlon_picker("Pick a location", marker=marker)
         st.write("You picked", lat, lon)
