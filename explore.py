@@ -113,7 +113,8 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
             popup=f"{spot}{new_line}for {info['themes']}",
-            tooltip=tooltip
+            tooltip=tooltip,
+            icon=folium.DivIcon(html='<div style="font-size: 12; color: green;">spot</div>')
         ).add_to(m)
     points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
     folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
