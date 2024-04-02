@@ -99,21 +99,24 @@ spots_locations = {
     "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773},
     "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969}
 }
-# 创建一个基本的地图
-m = folium.Map(location=[40.7128, -74.0060], zoom_start=10)
 
-# 在地图上添加标点
+m = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
+
 tooltip = "Click me!"
-marker = folium.Marker([40.7128, -74.0060], popup="<i>New York City</i>", tooltip=tooltip).add_to(m)
 
-# 在Streamlit中展示地图
+for spot, loc in spots_locations.items():
+    folium.Marker(
+        location=[loc["latitude"], loc["longitude"]],
+        popup=spot,
+        tooltip=tooltip
+    ).add_to(m)
+
 folium_static(m)
-
-# 检测用户点击事件
+"""
 if m.get_name() == "map":
     lat, lon = st.latlon_picker("Pick a location", marker=marker)
     st.write("You picked", lat, lon)
-
+"""
 
 
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
