@@ -1,6 +1,4 @@
 import streamlit as st
-st.cache
-st.balloons()
 
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
@@ -103,6 +101,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
 
     if st.button('Generate your travel route!'):
         result = plan_route(start_spot, total_spots, max_time, themes)
+        st.balloons()
         st.write(f"Route: {result[0]}")
         st.write(f"Total Time: {result[1]}")
 else:
