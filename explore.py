@@ -117,6 +117,8 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
             """,
             tooltip=tooltip
         ).add_to(m)
+    points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
+    folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
     folium_static(m)
 
 
