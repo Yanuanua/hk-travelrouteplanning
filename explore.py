@@ -1,6 +1,7 @@
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
+from streamlit_folium import folium_static
 
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
