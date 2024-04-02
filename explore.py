@@ -109,7 +109,7 @@ for spot in spots_locations:
             location=[spot["latitude"], spot["longitude"],
             #popup=f"{capital.capital}, {capital.state}",
             #tooltip=f"{capital.capital}, {capital.state}",
-            icon=folium.Icon(color="yellow")
+            icon=folium.Icon(color="yellow"),
             #if capital.state == st.session_state["selected_state"]
             #else None,
         )
