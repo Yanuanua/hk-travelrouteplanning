@@ -108,7 +108,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     for spot, info in spots_locations.items():
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
-            popup=f"Name: {spot} Tag: {info["themes"]}",
+            popup=f"Name: {spot} Tag: {info['themes']}",
             tooltip=tooltip
         ).add_to(m)
     folium_static(m)
