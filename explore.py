@@ -109,9 +109,10 @@ spots = {
 
 st.title('Plan Your HK Travel Route ^_^')
 #st.page_link("your_app.py", label="Home", icon="🏠")
-#st.page_link("pages/page_1.py", label="Page 1", icon="1️⃣")
-#st.page_link("pages/page_2.py", label="Page 2", icon="2️⃣", disabled=True)
-selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
+st.page_link("explore_method1.py", label="Method 1", icon="1️⃣")
+#st.page_link("explore_method2.py", label="Page 2", icon="2️⃣", disabled=True)
+#selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
+"""
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
@@ -125,3 +126,4 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.write(f"Total Time: {result[1]}")
 else:
     st.subheader('Method 2')
+"""
