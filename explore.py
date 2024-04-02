@@ -1,4 +1,5 @@
 import streamlit as st
+@st.cache
 st.balloons()
 
 def plan_route(start_spot, total_spots, max_time, themes):
