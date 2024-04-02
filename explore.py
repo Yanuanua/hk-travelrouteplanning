@@ -104,19 +104,19 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969, "themes": ["Citywalk"]}
     }
     m = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
+    """
     tooltip = "Click Me!"
     if m.get_name() == "map":
         lat, lon = st.latlon_picker("Pick a location", marker=marker)
         st.write("You picked", lat, lon)
     new_line = '\n'
+    """
     for spot, info in spots_locations.items():
-        icon_text = spot
-        icon = folium.features.CustomIcon(icon_text, icon_size=(100, 20))
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
-            popup=f"{spot}{new_line}for {info['themes']}",
-            tooltip=tooltip,
-            icon=icon
+            popup=f"{spot} for {info['themes']}",
+            #tooltip=tooltip,
+            tooltip=spot
         ).add_to(m)
     points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
     folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
