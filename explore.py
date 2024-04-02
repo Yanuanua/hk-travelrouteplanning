@@ -108,11 +108,11 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     if m.get_name() == "map":
         lat, lon = st.latlon_picker("Pick a location", marker=marker)
         st.write("You picked", lat, lon)
+    new_line = '\n'
     for spot, info in spots_locations.items():
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
-            popup=f"{spot}"
-                f"for {info['themes']}",
+            popup=f"{spot}{new_line}for {info['themes']}",
             tooltip=tooltip
         ).add_to(m)
     points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
