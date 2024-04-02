@@ -102,7 +102,7 @@ spots_locations = {
 
 m = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
 
-tooltip = "Click me!"
+#tooltip = "Click me!"
 
 for spot, loc in spots_locations.items():
     folium.Marker(
@@ -112,11 +112,10 @@ for spot, loc in spots_locations.items():
     ).add_to(m)
 
 folium_static(m)
-"""
+
 if m.get_name() == "map":
     lat, lon = st.latlon_picker("Pick a location", marker=marker)
     st.write("You picked", lat, lon)
-"""
 
 
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
