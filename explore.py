@@ -105,16 +105,17 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     }
     m = folium.Map(location=[22.28056, 114.17222], zoom_start=14)
     tooltip = "Click me!"
-    for spot, info in spots_locations.items():
-        folium.Marker(
-            location=[info["latitude"], info["longitude"]],
-            popup=f"{spot} for {info['themes'][0:-1]}",
-            tooltip=tooltip
-        ).add_to(m)
-    folium_static(m)
     if m.get_name() == "map":
         lat, lon = st.latlon_picker("Pick a location", marker=marker)
         st.write("You picked", lat, lon)
+    for spot, info in spots_locations.items():
+        folium.Marker(
+            location=[info["latitude"], info["longitude"]],
+            popup=f"{spot} for {info['themes']}",
+            tooltip=tooltip
+        ).add_to(m)
+    folium_static(m)
+
 
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
