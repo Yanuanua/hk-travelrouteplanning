@@ -6,3 +6,4 @@ folium>=0.13,!=0.15.0
 jinja2
 branca
 geopandas
+pandas
