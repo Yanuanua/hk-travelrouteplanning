@@ -100,7 +100,7 @@ selected_option = st.selectbox('Please choose one method for travel route planni
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
 
-    df = pd.read_excel("妍妍の表格.xlsx", sheet_name='Spots Information')
+    df = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
     Spots_Information = {}
     for index, row in df.iterrows():
         themes = [theme.strip() for theme in row['theme'].split(',')]
