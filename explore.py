@@ -2,6 +2,7 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from streamlit_folium import folium_static
+import pandas as pd
 
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
@@ -98,20 +99,27 @@ selected_option = st.selectbox('Please choose one method for travel route planni
 
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
-    
-    spots_locations = {
-    "Mong Kok":{"latitude": 22.3203648, "longitude": 114.169773, "themes": ["Nature"]},
-    "Victoria Park":{"latitude": 22.2823565, "longitude": 114.1886969, "themes": ["Citywalk"]}
-    }
+
+    df = pd.read_excel("妍妍の表格.xlsx", sheet_name='Spots Information')
+    Spots_Information = {}
+    for index, row in df.iterrows():
+        themes = [theme.strip() for theme in row['theme'].split(',')]
+        spot_data = {
+            'latitude': row['latitude'],
+            'longitude': row['longitude'],
+            'themes': themes
+        }
+        Spots_Information[row['spot_name']] = spot_data
+
     m = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-    for spot, info in spots_locations.items():
+    for spot_name, info in Spots_Information.items():
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
-            tooltip=f"{spot} for {info['themes']}",
+            tooltip=f"{spot_name} for {info['themes']}",
             icon=folium.Icon(icon='cloud')
         ).add_to(m)
-    points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
-    folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
+    #points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
+    #folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
     folium_static(m)
 
 
