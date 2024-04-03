@@ -113,7 +113,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
 
     start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
-    max_time = st.slider('Please choose the time you expect to travel.', min_value=1, max_value=30)
+    max_time = st.slider('Please choose the time you expect to travel.', min_value=1, max_value=4050)
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
 
     if st.button('Generate your travel route!'):
