@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 from streamlit_folium import folium_static
 import pandas as pd
+import openpyxl
 
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
