@@ -133,7 +133,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
         points = []
-        for spot in route[0]:
+        for spot in result[0]:
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
         folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
         folium_static(m)
