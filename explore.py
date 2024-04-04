@@ -45,7 +45,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 if theme not in visited_themes:
                     for spot, info in spots.items():
                         if theme in info['themes']:
-                            probabilities[current_spot][spot] *= 1.2
+                            probabilities[current_spot][spot] *= 1.4
             next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
             next_spot_info = spots[next_spot]
             if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
