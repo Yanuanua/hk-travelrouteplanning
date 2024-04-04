@@ -8,3 +8,4 @@ branca
 geopandas
 pandas
 openpyxl
+gmaps
