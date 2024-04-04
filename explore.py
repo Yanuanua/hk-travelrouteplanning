@@ -6,6 +6,7 @@ import pandas as pd
 import openpyxl
 
 #Method1方法
+"""
 def plan_route(start_spot, total_spots, max_time, themes):
     current_spot = start_spot
     route = [current_spot]
@@ -61,7 +62,68 @@ def plan_route(start_spot, total_spots, max_time, themes):
         current_spot = next_spot
     
     return route, total_time
+"""
+def plan_route(start_spot, total_spots, max_time, themes):
+    if start_spot == None:
+        current_spot = random.choice(list(spots.keys()))
+        print(current_spot)
+    else:
+        current_spot = start_spot
+    route = [current_spot]
+    total_time = spots[current_spot]['time']
+    visited_clusters = set([spots[current_spot]["cluster"]])
+    print(visited_clusters)
+    visited_themes = set(spots[current_spot]['themes'])
 
+    while len(route) < total_spots:
+        remaining_spots = [spot for spot in list(set(spots.keys())) if spots[spot]["cluster"] not in visited_clusters]
+        print(remaining_spots)
+        if not remaining_spots:
+            break
+        
+        if all(theme in visited_themes for theme in themes):
+            next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+            next_spot_info = spots[next_spot]
+            if total_time + next_spot_info['time'] <= max_time:
+                route.append(next_spot)
+                total_time += next_spot_info['time']
+                visited_themes.update(next_spot_info['themes'])
+                visited_clusters.add(next_spot_info["cluster"])
+            else:
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time]
+                if not remaining_spots:
+                    break
+                next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+                next_spot_info = spots[next_spot]
+                route.append(next_spot)
+                visited_clusters.add(next_spot_info["cluster"])
+                total_time += next_spot_info['time']
+        else:
+            for theme in themes:
+                if theme not in visited_themes:
+                    for spot, info in spots.items():
+                        if theme in info['themes']:
+                            probabilities[current_spot][spot] *= 1.2
+            next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+            next_spot_info = spots[next_spot]
+            if total_time + next_spot_info['time'] <= max_time:
+                route.append(next_spot)
+                total_time += next_spot_info['time']
+                visited_themes.update(next_spot_info['themes'])
+                visited_clusters.add(next_spot_info["cluster"])
+            else:
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time]
+                if not remaining_spots:
+                    break
+                next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+                next_spot_info = spots[next_spot]
+                route.append(next_spot)
+                visited_clusters.add(next_spot_info["cluster"])
+                total_time += next_spot_info['time']
+        
+        current_spot = next_spot
+    
+    return route, total_time
 #获取Method1数据
 df1 = pd.read_excel("Route Probabilities.xlsx", sheet_name='Sheet1')
 spots = {}
