@@ -118,7 +118,8 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
             tooltip=f"{spot_name} for {info['themes']}",
-            icon=folium.Icon(icon='cloud')
+            icon=folium.Icon(icon='cloud'),
+            icon_size(20, 20)
         ).add_to(m)
     folium_static(m)
 
