@@ -132,16 +132,17 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
+        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         points = []
         for spot in result[0]:
             folium.Marker(
                 location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                 tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
                 icon=folium.Icon(icon='cloud')
-            ).add_to(m)
+            ).add_to(m_1)
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
-        folium.PolyLine(points, color="green", weight=5, opacity=1).add_to(m)
-        folium_static(m)
+        folium.PolyLine(points, color="green", weight=5, opacity=1).add_to(m_1)
+        folium_static(m_1)
 else:
     st.subheader('Method 2')
 
