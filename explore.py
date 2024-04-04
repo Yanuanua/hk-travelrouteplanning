@@ -6,7 +6,7 @@ import pandas as pd
 import openpyxl
 
 #Method1方法
-def plan_route(start_spot, total_spots, max_time, themes):
+def route_method1(start_spot, total_spots, max_time, themes, ratio): #0<=ratio<=1 转移概率的ratio     
     if start_spot == None:
         current_spot = random.choice(list(spots.keys()))
     else:
@@ -22,7 +22,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
             break
         
         if all(theme in visited_themes for theme in themes):
-            next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+            next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
             next_spot_info = spots[next_spot]
             if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
                 route.append(next_spot)
@@ -34,7 +34,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
                 if not remaining_spots:
                     break
-                next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+                next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
                 next_spot_info = spots[next_spot]
                 route.append(next_spot)
                 visited_clusters.add(next_spot_info["cluster"])
@@ -46,7 +46,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                     for spot, info in spots.items():
                         if theme in info['themes']:
                             probabilities[current_spot][spot] *= 1.4
-            next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+            next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
             next_spot_info = spots[next_spot]
             if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
                 route.append(next_spot)
@@ -58,7 +58,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
                 if not remaining_spots:
                     break
-                next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
+                next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
                 next_spot_info = spots[next_spot]
                 route.append(next_spot)
                 visited_clusters.add(next_spot_info["cluster"])
@@ -83,11 +83,12 @@ for index, row in df1.iterrows():
         'longitude': row['longitude'],
         'time': int(row['time']),
         'cluster': str(row['cluster']),
+        'spot_pro': float(row['spot_pro']),
         'themes': themes
     }
     spots[row['spot_name']] = spot_data
 for index, row in df1.iterrows():
-    probs = {key: row[key] for key in row.index[6:38]}
+    probs = {key: row[key] for key in row.index[7:39]}
     probabilities[row['spot_name']] = probs
 df1_1 = pd.read_excel("Traffic_Method1.xlsx", sheet_name='Sheet1')
 traffic_m1 = {}
@@ -97,11 +98,11 @@ for index, row in df1_1.iterrows():
 
 #用户界面
 st.title('Plan Your HK Travel Route ^_^')
-selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
+selected_ratio = st.selectbox('Please choose the ratio of transition probability to topic probability.', [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 'None'])
 
-if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
+if selected_option > 0:
     st.subheader('Method 1')
-
+    
     df_map = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
     Spots_Information = {}
     for index, row in df_map.iterrows():
@@ -121,14 +122,14 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
             icon=folium.Icon(icon='cloud')
         ).add_to(m)
     folium_static(m)
-
+    ratio = selected_ratio
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     max_time = st.slider('Please choose the time you expect to travel.', min_value=1, max_value=6050)
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
 
     if st.button('Generate your travel route!'):
-        result = plan_route(start_spot, total_spots, max_time, themes)
+        result = plan_route(start_spot, total_spots, max_time, themes, ratio)
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
