@@ -74,7 +74,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
 
 #获取Method1数据
 df1 = pd.read_excel("Route Probabilities.xlsx", sheet_name='Sheet1')
-spots = {}
+spots = {"None"}
 probabilities = {}
 for index, row in df1.iterrows():
     themes = [theme.strip() for theme in row['themes'].split(',')]
