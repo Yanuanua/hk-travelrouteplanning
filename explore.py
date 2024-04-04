@@ -4,6 +4,7 @@ from streamlit_folium import st_folium
 from streamlit_folium import folium_static
 import pandas as pd
 import openpyxl
+from folium.plugins import PolyLineTextPath
 
 #Method1方法
 def plan_route(start_spot, total_spots, max_time, themes):
@@ -142,6 +143,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
             ).add_to(m_1)
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
         folium.PolyLine(points, color="green", weight=5, opacity=1).add_to(m_1)
+        PolyLineTextPath(points, "→", offset=6).add_to(m_1)
         folium_static(m_1)
 else:
     st.subheader('Method 2')
