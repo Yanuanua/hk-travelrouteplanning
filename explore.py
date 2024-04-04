@@ -117,7 +117,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     for spot_name, info in Spots_Information.items():
         folium.Marker(
             location=[info["latitude"], info["longitude"]],
-            tooltip=f"{spot_name} for {info['themes']}",
+            tooltip=f"{spot_name} for {', '.join(info['themes'])}",
             icon=folium.Icon(icon='cloud')
         ).add_to(m)
     folium_static(m)
@@ -136,7 +136,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         for spot in result[0]:
             folium.Marker(
                 location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                tooltip=f"{spot} for {Spots_Information[spot]['theme']}",
+                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}"
                 icon=folium.Icon(icon='cloud')
             ).add_to(m)
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
