@@ -98,7 +98,7 @@ for index, row in df1_1.iterrows():
 
 #用户界面
 st.title('Plan Your HK Travel Route ^_^')
-selected_ratio = st.selectbox('Please choose the ratio of transition probability to topic probability.', [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 'None'])
+selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
 
 if selected_option > 0:
     st.subheader('Method 1')
