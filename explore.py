@@ -31,7 +31,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 60 <= max_time]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
@@ -55,7 +55,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 60 <= max_time]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
