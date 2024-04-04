@@ -100,7 +100,7 @@ for index, row in df1_1.iterrows():
 st.title('Plan Your HK Travel Route ^_^')
 selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
 
-if selected_option > 0:
+if selected_ratio > 0:
     st.subheader('Method 1')
     
     df_map = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
