@@ -9,28 +9,25 @@ import openpyxl
 def plan_route(start_spot, total_spots, max_time, themes):
     if start_spot == None:
         current_spot = random.choice(list(spots.keys()))
-        print(current_spot)
     else:
         current_spot = start_spot
     route = [current_spot]
     total_time = spots[current_spot]['time']
     visited_clusters = set([spots[current_spot]["cluster"]])
-    print(visited_clusters)
     visited_themes = set(spots[current_spot]['themes'])
 
     while len(route) < total_spots:
         remaining_spots = [spot for spot in list(set(spots.keys())) if spots[spot]["cluster"] not in visited_clusters]
-        print(remaining_spots)
         if not remaining_spots:
             break
         
         if all(theme in visited_themes for theme in themes):
             next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
             next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1['current_spot']['next_spot'] <= max_time:
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
                 route.append(next_spot)
                 total_time += next_spot_info['time']
-                total_time += traffic_m1['current_spot']['next_spot']
+                total_time += traffic_m1[current_spot][next_spot]
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
@@ -42,7 +39,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 route.append(next_spot)
                 visited_clusters.add(next_spot_info["cluster"])
                 total_time += next_spot_info['time']
-                total_time += traffic_m1['current_spot']['next_spot']
+                total_time += traffic_m1[current_spot][next_spot]
         else:
             for theme in themes:
                 if theme not in visited_themes:
@@ -51,10 +48,10 @@ def plan_route(start_spot, total_spots, max_time, themes):
                             probabilities[current_spot][spot] *= 1.2
             next_spot = max(remaining_spots, key=lambda x: probabilities[route[-1]][x])
             next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1['current_spot']['next_spot'] <= max_time:
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
                 route.append(next_spot)
                 total_time += next_spot_info['time']
-                total_time += traffic_m1['current_spot']['next_spot']
+                total_time += traffic_m1[current_spot][next_spot]
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
@@ -66,7 +63,7 @@ def plan_route(start_spot, total_spots, max_time, themes):
                 route.append(next_spot)
                 visited_clusters.add(next_spot_info["cluster"])
                 total_time += next_spot_info['time']
-                total_time += traffic_m1['current_spot']['next_spot']
+                total_time += traffic_m1[current_spot][next_spot]
         
         current_spot = next_spot
     
@@ -95,7 +92,7 @@ for index, row in df1.iterrows():
 df1_1 = pd.read_excel("Traffic_Method1.xlsx", sheet_name='Sheet1')
 traffic_m1 = {}
 for index, row in df1_1.iterrows():
-    traf = {key: row[key] for key in row.index[1:33]}
+    traf = {key: round(row[key]) for key in row.index[1:33]}
     traffic_m1[row['spot_name']] = traf
 
 #用户界面
