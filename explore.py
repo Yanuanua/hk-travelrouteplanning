@@ -136,7 +136,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         for spot in result[0]:
             folium.Marker(
                 location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}"
+                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
                 icon=folium.Icon(icon='cloud')
             ).add_to(m)
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
