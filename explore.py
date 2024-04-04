@@ -134,7 +134,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
     if st.button('Generate your travel route!'):
         result = plan_route(start_spot, total_spots, max_time, themes)
         st.balloons()
-        st.write(f"Route: {result[0]}")
+        st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
 else:
     st.subheader('Method 2')
