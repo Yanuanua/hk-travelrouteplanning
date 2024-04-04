@@ -129,7 +129,7 @@ if selected_ratio > 0:
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
 
     if st.button('Generate your travel route!'):
-        result = plan_route(start_spot, total_spots, max_time, themes, ratio)
+        result = route_method1(start_spot, total_spots, max_time, themes, ratio=selected_ratio)
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
