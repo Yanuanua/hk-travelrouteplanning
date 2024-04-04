@@ -135,7 +135,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         points = []
         for spot in result[0]:
             points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
-        folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
+        folium.PolyLine(points, color="green", weight=5, opacity=1).add_to(m)
         folium_static(m)
 else:
     st.subheader('Method 2')
