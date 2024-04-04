@@ -132,7 +132,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
-        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=10)
+        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=14)
         points = []
         for spot in result[0]:
             folium.Marker(
