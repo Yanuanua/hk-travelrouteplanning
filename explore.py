@@ -99,7 +99,6 @@ for index, row in df1_1.iterrows():
 st.title('Plan Your HK Travel Route ^_^')
 selected_option = st.selectbox('Please choose one method for travel route planning.', ['Method 1: For travelers who have time constraints and rely on historical experience.', 'Method 2: For travelers who have time to spare and love to explore new spots.'])
 
-
 if selected_option == 'Method 1: For travelers who have time constraints and rely on historical experience.':
     st.subheader('Method 1')
 
@@ -121,10 +120,7 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
             tooltip=f"{spot_name} for {info['themes']}",
             icon=folium.Icon(icon='cloud')
         ).add_to(m)
-    #points=[(22.3203648,114.169773),(22.2823565,114.1886969)]
-    #folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
     folium_static(m)
-
 
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
@@ -136,6 +132,11 @@ if selected_option == 'Method 1: For travelers who have time constraints and rel
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
+        points = []
+        for spot in route[0]:
+            points.append((Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']))
+        folium.PolyLine(points, color="blue", weight=2.5, opacity=1).add_to(m)
+        folium_static(m)
 else:
     st.subheader('Method 2')
 
