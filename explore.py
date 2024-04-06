@@ -298,7 +298,7 @@ for spot_name, info in Spots_Information.items():
         icon=folium.Icon(icon='cloud')
     ).add_to(m)
 folium_static(m)
-if selected_ratio > 0:
+if selected_ratio != 0 and selected_ratio != None:
     st.subheader('Method 1')
     ratio = selected_ratio
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
