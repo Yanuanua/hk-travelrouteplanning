@@ -280,13 +280,10 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
 st.title('Plan Your HK Travel Route ^_^')
 st.write('Hello dear travelers, welcome to our Hong Kong travel route recommendation system.')
 st.write('We now support 3 route recommendation methods.')
-#st.title('Method 1 \(please choose 0.1-1.0\)')
 st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 1 (please choose 0.1-1.0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who follow popular attractions but have limited time, are in the attractions, or have certain intentions \(the larger the number, the more dependent it is on the transition probability, and the smaller the number, the more dependent it is on the surface probability\).')
-#st.title('Method 2 \(please select 0.0\)')
 st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 2 (please select 0.0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who follow popular attractions and have ample time.')
-#st.title('Method 3 \(please select None\)')
 st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 3 (please select None)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who are willing to explore different attractions and have ample time.')
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
@@ -340,25 +337,28 @@ elif selected_ratio == 0:
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=1, max_value=spots_num+1)
     if st.button('Generate your travel route!'):
-        result = route_method2(start_point, spots_num, themes, themes_num)
-        st.balloons()
-        st.write(f"Route: {' → '.join(result[0])}")
-        hours = result[1] // 60
-        minutes = result[1] % 60
-        st.write(f"{hours} hours {minutes} minutes")
-        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-        folium.Marker(
-            location= list(result[3][1]),
-            tooltip=f"Your Starting and Return Point: {result[2]}",
-            icon=folium.Icon(icon='cloud')
-            ).add_to(m_1)
-        for spot in result[0][1:-1]:
+        if start_point == None:
+            st.write("Please enter your current residence as your starting and return point.")
+        else:
+            result = route_method2(start_point, spots_num, themes, themes_num)
+            st.balloons()
+            st.write(f"Route: {' → '.join(result[0])}")
+            hours = result[1] // 60
+            minutes = result[1] % 60
+            st.write(f"{hours} hours {minutes} minutes")
+            m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
-                location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                location= list(result[3][1]),
+                tooltip=f"Your Starting and Return Point: {result[2]}",
                 icon=folium.Icon(icon='cloud')
-            ).add_to(m_1)
-        folium_static(m_1)
+                ).add_to(m_1)
+            for spot in result[0][1:-1]:
+                folium.Marker(
+                    location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
+                    tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                    icon=folium.Icon(icon='cloud')
+                ).add_to(m_1)
+            folium_static(m_1)
 elif selected_ratio == None:
     st.subheader('Method 3: Random Spots')
     spots = spots
@@ -366,24 +366,27 @@ elif selected_ratio == None:
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     if st.button('Generate your travel route!'):
-        result = route_method3(start_point, themes, total_spots, spots=spots)
-        st.balloons()
-        st.write(f"Route: {' → '.join(result[0])}")
-        hours = result[1] // 60
-        minutes = result[1] % 60
-        st.write(f"{hours} hours {minutes} minutes")
-        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-        folium.Marker(
-            location= list(result[3][1]),
-            tooltip=f"Your Starting and Return Point: {result[2]}",
-            icon=folium.Icon(icon='cloud')
-            ).add_to(m_1)
-        for spot in result[0][1:-1]:
+        if start_point == None:
+            st.write("Please enter your current residence as your starting and return point.")
+        else:
+            result = route_method3(start_point, themes, total_spots, spots=spots)
+            st.balloons()
+            st.write(f"Route: {' → '.join(result[0])}")
+            hours = result[1] // 60
+            minutes = result[1] % 60
+            st.write(f"{hours} hours {minutes} minutes")
+            m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
-                location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                location= list(result[3][1]),
+                tooltip=f"Your Starting and Return Point: {result[2]}",
                 icon=folium.Icon(icon='cloud')
-            ).add_to(m_1)
-        folium_static(m_1)
+                ).add_to(m_1)
+            for spot in result[0][1:-1]:
+                folium.Marker(
+                    location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
+                    tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                    icon=folium.Icon(icon='cloud')
+                ).add_to(m_1)
+            folium_static(m_1)
     
 
