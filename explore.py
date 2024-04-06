@@ -323,7 +323,7 @@ if selected_ratio > 0:
         folium_static(m_1)
 elif selected_ratio == 0:
     st.subheader('Method 2')
-    start_spot = st.text_input("Please enter your current residence as your starting point and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
+    start_point = st.text_input("Please enter your current residence as your starting point and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=1, max_value=spots_num+1)
