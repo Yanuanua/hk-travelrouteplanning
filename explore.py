@@ -274,7 +274,7 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
     print(min_path_order)
     total_time += matrix[0][min_path_order[1]] + matrix[min_path_order[-2]][0]
     total_time = round(total_time)
-    return min_path, total_time
+    return min_path, total_time, start_point, coordinate_start
 
 #用户界面
 st.title('Plan Your HK Travel Route ^_^')
