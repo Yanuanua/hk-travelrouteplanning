@@ -10,5 +10,5 @@ pandas
 openpyxl
 gmaps
 DateTime
-geopy.geocoders
+geopy
 itertools
