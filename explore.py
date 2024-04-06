@@ -257,7 +257,6 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
     min_path_weight = maxsize
     next_permutation=permutations(list(vertex.keys())[1:])
     min_path_order = None
-    
     for i in next_permutation: 
         current_pathweight = 0
         k = 0
@@ -265,7 +264,6 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
             current_pathweight += graph[k][j]  
             k = j  
         current_pathweight += graph[k][0]  
-
         if current_pathweight < min_path_weight:
             min_path_weight = current_pathweight
             min_path_order = [0] + list(i) + [0]
@@ -275,7 +273,6 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
     print(min_path_order)
     total_time += matrix[0][min_path_order[1]] + matrix[min_path_order[-2]][0]
     total_time = round(total_time)
-    
     return min_path, total_time
 
 #用户界面
@@ -333,7 +330,7 @@ elif selected_ratio == 0:
         st.write(f"Total Time: {result[1]}")
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         folium.Marker(
-            location= list(result[3]),
+            location= list(result[3][1]),
             tooltip=f"Your Starting and Return Point: {result[2]}",
             icon=folium.Icon(icon='cloud')
             ).add_to(m_1)
