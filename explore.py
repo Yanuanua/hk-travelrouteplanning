@@ -277,7 +277,9 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
 
 #用户界面
 st.title('Plan Your HK Travel Route ^_^')
-selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
+options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
+selected_ratio = st.selectbox('Please choose the ratio of transition probability to topic probability.', options)
+#selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
 df_map = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
 Spots_Information = {}
 for index, row in df_map.iterrows():
@@ -343,4 +345,31 @@ elif selected_ratio == 0:
                 icon=folium.Icon(icon='cloud')
             ).add_to(m_1)
         folium_static(m_1)
+elif selected_ratio == None:
+    st.subheader('Method 3: Random Spots')
+    spots = spots
+    start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
+    total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
+    themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
+    if st.button('Generate your travel route!'):
+        result = route_method3(start_point, themes, total_spots, spots=spots)
+        st.balloons()
+        st.write(f"Route: {' → '.join(result[0])}")
+        hours = result[1] // 60
+        minutes = result[1] % 60
+        st.write(f"{hours} hours {minutes} minutes")
+        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
+        folium.Marker(
+            location= list(result[3][1]),
+            tooltip=f"Your Starting and Return Point: {result[2]}",
+            icon=folium.Icon(icon='cloud')
+            ).add_to(m_1)
+        for spot in result[0][1:-1]:
+            folium.Marker(
+                location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
+                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                icon=folium.Icon(icon='cloud')
+            ).add_to(m_1)
+        folium_static(m_1)
+    
 
