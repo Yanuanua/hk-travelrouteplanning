@@ -278,6 +278,11 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
 
 #用户界面
 st.title('Plan Your HK Travel Route ^_^')
+st.write('Hello dear travelers, welcome to our Hong Kong travel route recommendation system.')
+st.write('We now support 3 route recommendation methods.')
+st.write('Method 1: Suitable for travelers who follow popular attractions but have limited time, are in the attractions, or have certain intentions \(please choose 1.0-0.9; the larger the number, the more dependent it is on the transition probability, and the smaller the number, the more dependent it is on the surface probability\).')
+st.write('Method 2: Suitable for travelers who follow popular attractions and have ample time (please select 0.0).')
+st.write('Method 3: Suitable for travelers who are willing to explore different attractions and have ample time (please select None).')
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
 selected_ratio = st.selectbox('Please choose the ratio of transition probability to topic probability.', options)
 #selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
@@ -310,7 +315,9 @@ if selected_ratio != 0 and selected_ratio != None:
         result = route_method1(start_spot, total_spots, max_time, themes, ratio=selected_ratio)
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
-        st.write(f"Total Time: {result[1]}")
+        hours = result[1] // 60
+        minutes = result[1] % 60
+        st.write(f"{hours} hours {minutes} minutes")
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         points = []
         for spot in result[0]:
