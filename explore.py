@@ -333,7 +333,7 @@ elif selected_ratio == 0:
         st.write(f"Route: {' → '.join(result[0])}")
         st.write(f"Total Time: {result[1]}")
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-        points = [res[2]]
+        points = [result[2]]
         for spot in result[0]:
             folium.Marker(
                 location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
