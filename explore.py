@@ -10,6 +10,7 @@ import googlemaps
 from datetime import datetime
 from sys import maxsize  
 from itertools import permutations
+import random
 
 #数据集
 df1 = pd.read_excel("Route Probabilities.xlsx", sheet_name='Sheet1')
