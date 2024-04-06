@@ -174,7 +174,7 @@ def route_method2(start_point, spots_num, themes, themes_num):
         total_duration += duration_in_traffic
     total_time = round(total_stay_time+total_duration)
 
-    return min_path, total_time
+    return min_path, total_time, coordinate_start
 
 #不依赖转移概率和地表概率
 def route_method3(start_point, themes, total_spots, spots=spots): #必须输入start point 酒店/关口
