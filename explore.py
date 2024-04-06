@@ -323,6 +323,7 @@ if selected_ratio != 0 and selected_ratio != None:
         hours = result[1] // 60
         minutes = result[1] % 60
         st.write(f"{hours} hours {minutes} minutes")
+        st.write('Thank you for using our recommendation system and have a nice trip!')
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         points = []
         for spot in result[0]:
@@ -348,6 +349,7 @@ elif selected_ratio == 0:
             hours = result[1] // 60
             minutes = result[1] % 60
             st.write(f"{hours} hours {minutes} minutes")
+            st.write('Thank you for using our recommendation system and have a nice trip!')
             m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
                 location= list(result[3][1]),
@@ -378,6 +380,7 @@ elif selected_ratio == None:
             hours = result[1] // 60
             minutes = result[1] % 60
             st.write(f"{hours} hours {minutes} minutes")
+            st.write('Thank you for using our recommendation system and have a nice trip!')
             m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
                 location= list(result[3][1]),
