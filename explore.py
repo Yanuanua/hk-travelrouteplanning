@@ -337,8 +337,8 @@ elif selected_ratio == 0:
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=1, max_value=spots_num+1)
     if st.button('Generate your travel route!'):
-        if start_point == None:
-            st.write("Please enter your current residence as your starting and return point.")
+        if not start_point:
+            st.warning("Please enter your current residence as your starting and return point.")
         else:
             result = route_method2(start_point, spots_num, themes, themes_num)
             st.balloons()
@@ -366,8 +366,9 @@ elif selected_ratio == None:
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     if st.button('Generate your travel route!'):
-        if start_point == None:
-            st.write("Please enter your current residence as your starting and return point.")
+        if not start_point:
+            st.warning("Please enter your current residence as your starting and return point.")
+            #st.write("Please enter your current residence as your starting and return point.")
         else:
             result = route_method3(start_point, themes, total_spots, spots=spots)
             st.balloons()
