@@ -103,6 +103,7 @@ def route_method1(start_spot, total_spots, max_time, themes, ratio): #0<=ratio<=
 
 #转移概率为0
 def route_method2(start_point, spots_num, themes, themes_num):
+    start_point = f"HK {start_point}"
     filtered_data = []
     all_spots = set()
     for i in range(len(themes), 0, -1):
@@ -179,6 +180,7 @@ def route_method2(start_point, spots_num, themes, themes_num):
 
 #不依赖转移概率和地表概率
 def route_method3(start_point, themes, total_spots, spots=spots): #必须输入start point 酒店/关口
+    start_point = f"HK {start_point}"
     current_spot = start_point
     route = [current_spot]
     selectspots = []
