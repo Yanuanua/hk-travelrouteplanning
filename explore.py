@@ -327,7 +327,9 @@ elif selected_ratio == 0:
         result = route_method2(start_point, spots_num, themes, themes_num)
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
-        st.write(f"Total Time: {result[1]}")
+        hours = result[0] // 60
+        minutes = result[0] % 60
+        st.write(f"{hours} hours {minutes} minutes")
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         folium.Marker(
             location= list(result[3][1]),
