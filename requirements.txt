@@ -9,4 +9,6 @@ geopandas
 pandas
 openpyxl
 gmaps
- DateTime
+DateTime
+geopy.geocoders
+itertools
