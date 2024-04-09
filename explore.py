@@ -291,7 +291,7 @@ if selected_tratio != 0:
     st.subheader('Method 1')
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
-    time_hours = st.slider('Please choose the time you expect to travel (hours)', min_value=0, max_value=100)
+    time_hours = st.slider('Please choose the time you expect to travel (hours)', min_value=0, max_value=24)
     time_minutes = st.slider('Please choose the time you expect to travel (minutes)', min_value=0, max_value=59)
     max_time = time_hours * 60 + time_minutes
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
