@@ -36,6 +36,70 @@ for index, row in df1_1.iterrows():
     traf = {key: round(row[key]) for key in row.index[1:39]}
     traffic_m1[row['spot_name']] = traf
 
+#转移概率地标概率都不为0
+def route_method1(start_spot, total_spots, max_time, themes, tratio=tratio, sratio=sratio): #0<=ratio<=1 转移概率的ratio     
+    if start_spot == None:
+        current_spot = random.choice(list(spots.keys()))
+    else:
+        current_spot = start_spot
+    route = [current_spot]
+    total_time = spots[current_spot]['time']
+    visited_clusters = set([spots[current_spot]["cluster"]])
+    visited_themes = set(spots[current_spot]['themes'])
+
+    while len(route) < total_spots:
+        remaining_spots = [spot for spot in list(set(spots.keys())) if spots[spot]["cluster"] not in visited_clusters]
+        if not remaining_spots:
+            break
+        
+        if all(theme in visited_themes for theme in themes):
+            next_spot = max(remaining_spots, key=lambda x: tratio*probabilities[route[-1]][x] + sratio*spots[x]['spot_pro'])
+            next_spot_info = spots[next_spot]
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
+                route.append(next_spot)
+                total_time += next_spot_info['time']
+                total_time += traffic_m1[current_spot][next_spot]
+                visited_themes.update(next_spot_info['themes'])
+                visited_clusters.add(next_spot_info["cluster"])
+            else:
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
+                if not remaining_spots:
+                    break
+                next_spot = max(remaining_spots, key=lambda x: tratio*probabilities[route[-1]][x] + sratio*spots[x]['spot_pro'])
+                next_spot_info = spots[next_spot]
+                route.append(next_spot)
+                visited_clusters.add(next_spot_info["cluster"])
+                total_time += next_spot_info['time']
+                total_time += traffic_m1[current_spot][next_spot]
+        else:
+            for theme in themes:
+                if theme not in visited_themes:
+                    for spot, info in spots.items():
+                        if theme in info['themes']:
+                            probabilities[current_spot][spot] *= 1.4
+            next_spot = max(remaining_spots, key=lambda x: tratio*probabilities[route[-1]][x] + sratio*spots[x]['spot_pro'])
+            next_spot_info = spots[next_spot]
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
+                route.append(next_spot)
+                total_time += next_spot_info['time']
+                total_time += traffic_m1[current_spot][next_spot]
+                visited_themes.update(next_spot_info['themes'])
+                visited_clusters.add(next_spot_info["cluster"])
+            else:
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
+                if not remaining_spots:
+                    break
+                next_spot = max(remaining_spots, key=lambda x: tratio*probabilities[route[-1]][x] + sratio*spots[x]['spot_pro'])
+                next_spot_info = spots[next_spot]
+                route.append(next_spot)
+                visited_clusters.add(next_spot_info["cluster"])
+                total_time += next_spot_info['time']
+                total_time += traffic_m1[current_spot][next_spot]
+        
+        current_spot = next_spot
+    
+    return route, total_time
+
 #转移概率为0
 def route_method2(start_point, spots_num, themes, themes_num):
     filtered_data = []
@@ -281,7 +345,7 @@ else:
     st.subheader('Method 3: Random Spots')
     spots = spots
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
-    total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
+    spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
     themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=1, max_value=spots_num+1)
     if st.button('Generate your travel route!'):
