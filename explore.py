@@ -261,11 +261,11 @@ def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必
 st.title('Plan Your HK Travel Route ^_^')
 st.write('Hello dear travelers, welcome to our Hong Kong travel route recommendation system.')
 st.write('We now support 3 route recommendation methods.')
-st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 1 (please choose 0.1-1.0)</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 1 (if transition probability ≠ 0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who follow popular attractions but have limited time, are in the attractions, or have certain intentions \(the larger the number, the more dependent it is on the transition probability, and the smaller the number, the more dependent it is on the topic probability\).')
-st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 2 (please select 0.0)</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 2 (if transition probability = 0 and landmark probability ≠ 0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who follow popular attractions and have ample time.')
-st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 3 (please select None)</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 3 (if transition probability = 0 and landmark probability = 0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who are willing to explore different attractions and have ample time.')
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
 selected_tratio = st.slider('Please choose the transition probability.', min_value=0.00, max_value=100.00, format="%.2f")
@@ -289,7 +289,6 @@ for spot_name, info in Spots_Information.items():
 folium_static(m)
 if selected_tratio != 0:
     st.subheader('Method 1')
-    ratio = selected_ratio
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     max_time = st.slider('Please choose the time you expect to travel.', min_value=1, max_value=6050)
