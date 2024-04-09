@@ -324,6 +324,7 @@ elif selected_sratio != 0:
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
         else:
+            start_point = f"Hong Kong {start_point}"
             result = route_method2(start_point, spots_num, themes, themes_num)
             st.balloons()
             st.write(f"Route: {' → '.join(result[0])}")
@@ -356,6 +357,7 @@ else:
             st.warning("Please enter your current residence as your starting and return point.")
             #st.write("Please enter your current residence as your starting and return point.")
         else:
+            start_point = f"Hong Kong {start_point}"
             result = route_method3(start_point, spots_num, themes, themes_num, spots=spots)
             st.balloons()
             st.write(f"Route: {' → '.join(result[0])}")
