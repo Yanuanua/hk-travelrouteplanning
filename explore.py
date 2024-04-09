@@ -178,74 +178,27 @@ def route_method2(start_point, spots_num, themes, themes_num):
 
 #不依赖转移概率和地表概率
 def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必须输入start point 酒店/关口
-    if themes:
-        filtered_data = []
-        all_spots = set()
-        for i in range(len(themes), 0, -1):
-            filtered = df1[df1['themes'].astype(str).apply(lambda x: sum(theme in x for theme in themes) >= i)]
-            filtered = filtered[~filtered['spot_name'].isin(all_spots)]
-            all_spots.update(filtered['spot_name'])
-            filtered_data.append(filtered)
-        combined_df = pd.concat(filtered_data)
+    filtered_data = []
+    all_spots = set()
+    for i in range(len(themes), 0, -1):
+        filtered = df1[df1['themes'].astype(str).apply(lambda x: sum(theme in x for theme in themes) >= i)]
+        filtered = filtered[~filtered['spot_name'].isin(all_spots)]
+        all_spots.update(filtered['spot_name'])
+        filtered_data.append(filtered)
+    combined_df = pd.concat(filtered_data)
     
-        combined_df['themes_count'] = combined_df['themes'].apply(lambda x: sum(theme in x for theme in themes))
-        sorted_df = combined_df.sort_values(by=['themes_count'], ascending=False)
-        top_spots = sorted_df['spot_name'].head(themes_num).tolist()
-        random.shuffle(top_spots)
-        if spots_num > themes_num:
-            remaining_spots = df1[~df1['spot_name'].isin(top_spots)]['spot_name'].tolist()
-            random.shuffle(remaining_spots)
-            selected_remaining_spots = remaining_spots[:spots_num - themes_num]
-            visited_spots = top_spots + selected_remaining_spots
-        else:
-            visited_spots = top_spots
-        route = [start_point] + visited_spots
-        total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
-    else:
-        current_spot = start_point
-        route = [current_spot]
-        selectspots = []
-        for spot in list(set(spots.keys())):
-            for theme in spots[spot]['themes']:
-                if theme in themes:
-                    selectspots.append(spot)
-        print(selectspots)
-        next_spot = random.choice(selectspots)
-        current_spot = next_spot
-        total_stay_time = spots[current_spot]['time']
-        visited_spots = [current_spot]
-        visited_themes = set(spots[current_spot]['themes'])
-        route.append(current_spot)
-        while len(route)-1 < total_spots:
-            remaining_spots = [spot for spot in list(set(spots.keys())) if spot not in visited_spots]
-            if not remaining_spots:
-                break
-            if all(theme in visited_themes for theme in themes):
-                next_spot = random.choice(remaining_spots)
-                next_spot_info = spots[next_spot]
-                route.append(next_spot)
-                total_stay_time += next_spot_info['time']
-                visited_spots.append(next_spot)
-                visited_themes.update(next_spot_info['themes'])
-            else:
-                for theme in themes:
-                    if theme not in visited_themes:
-                        for spot in list(set(spots.keys())):
-                            if spot not in visited_spots:
-                                for theme in spots[spot]['themes']:
-                                    if theme in themes:
-                                        selectspots = []
-                                        selectspots.append(spot)
-                                        print(selectspots)
-                next_spot = random.choice(selectspots)
-                print(next_spot)
-                next_spot_info = spots[next_spot]
-                route.append(next_spot)
-                total_stay_time += next_spot_info['time']
-                visited_spots.append(next_spot)
-                visited_themes.update(next_spot_info['themes'])
-            current_spot = next_spot
-  
+    combined_df['themes_count'] = combined_df['themes'].apply(lambda x: sum(theme in x for theme in themes))
+    sorted_df = combined_df.sort_values(by=['themes_count'], ascending=False)
+    top_spots = sorted_df['spot_name'].head(themes_num).tolist()
+    random.shuffle(top_spots)
+    if spots_num > themes_num:
+        remaining_spots = df1[~df1['spot_name'].isin(top_spots)]['spot_name'].tolist()
+        random.shuffle(remaining_spots)
+        selected_remaining_spots = remaining_spots[:spots_num - themes_num]
+    visited_spots = top_spots + selected_remaining_spots
+    route = [start_point] + visited_spots
+    total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
+    
     geolocator = GoogleV3(api_key='AIzaSyD7dw8EQZ0YN-Znw4ccEB4K4uakw0Cj2DM')
     gmaps = googlemaps.Client(key='AIzaSyD7dw8EQZ0YN-Znw4ccEB4K4uakw0Cj2DM')
     coordinate_start = geolocator.geocode(start_point)
@@ -364,13 +317,12 @@ elif selected_sratio != 0:
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    if not themes:
-        themes_num = 0
-    else:
-        themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
+        if not themes:
+            st.warning("Please choose the theme\(s\) you are interested in.")
         else:
             start_point = f"Hong Kong {start_point}"
             result = route_method2(start_point, spots_num, themes, themes_num)
@@ -399,13 +351,12 @@ else:
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    if not themes:
-        themes_num = 0
-    else:
-        themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
+        if not themes:
+            st.warning("Please choose the theme\(s\) you are interested in.")
         else:
             start_point = f"Hong Kong {start_point}"
             result = route_method3(start_point, spots_num, themes, themes_num, spots=spots)
