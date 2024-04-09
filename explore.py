@@ -37,7 +37,7 @@ for index, row in df1_1.iterrows():
     traffic_m1[row['spot_name']] = traf
 
 #转移概率地标概率都不为0
-def route_method1(start_spot, total_spots, max_time, themes, tratio=selected_tratio, sratio=selected_sratio):  
+def route_method1(start_spot, total_spots, max_time, themes, tratio, sratio):  
     if start_spot == None:
         current_spot = random.choice(list(spots.keys()))
     else:
