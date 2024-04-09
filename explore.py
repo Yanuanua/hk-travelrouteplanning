@@ -206,7 +206,6 @@ st.write('Suitable for travelers who are willing to explore different attraction
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
 selected_tratio = st.slider('Please choose the transition probability.', min_value=0.00, max_value=100.00, format="%.2f")
 selected_sratio = st.slider('Please choose the landmark probability.', min_value=0.00, max_value=100.00, format="%.2f")
-df_map = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
 Spots_Information = {}
 for index, row in df1.iterrows():
     themes = [theme.strip() for theme in row['themes'].split(',')]
