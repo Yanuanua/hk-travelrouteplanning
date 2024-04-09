@@ -303,7 +303,7 @@ if selected_tratio != 0:
         st.write(f"Route: {' → '.join(result[0])}")
         hours = result[1] // 60
         minutes = result[1] % 60
-        st.write(f"{hours} hours {minutes} minutes")
+        st.write(f"Total Time: {hours} hours {minutes} minutes")
         st.write('\U00002600 Thank you for using our recommendation system and have a nice trip! \U00002600')
         m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
         points = []
@@ -329,7 +329,7 @@ elif selected_sratio != 0:
             st.write(f"Route: {' → '.join(result[0])}")
             hours = result[1] // 60
             minutes = result[1] % 60
-            st.write(f"{hours} hours {minutes} minutes")
+            st.write(f"Total Time: {hours} hours {minutes} minutes")
             st.write('\U00002600 Thank you for using our recommendation system and have a nice trip! \U00002600')
             m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
@@ -361,7 +361,7 @@ else:
             st.write(f"Route: {' → '.join(result[0])}")
             hours = result[1] // 60
             minutes = result[1] % 60
-            st.write(f"{hours} hours {minutes} minutes")
+            st.write(f"Total Time: {hours} hours {minutes} minutes")
             st.write('\U00002600 Thank you for using our recommendation system and have a nice trip! \U00002600')
             m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
             folium.Marker(
