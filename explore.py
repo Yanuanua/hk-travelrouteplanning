@@ -296,7 +296,7 @@ if selected_tratio != 0:
     tratio = selected_tratio
     sratio = selected_sratio
     if st.button('Generate your travel route!'):
-        result = route_method1(start_spot, total_spots, max_time, themes, ratio=selected_ratio)
+        result = route_method1(start_spot, total_spots, max_time, themes, tratio=tratio, sratio=sratio)
         st.balloons()
         st.write(f"Route: {' → '.join(result[0])}")
         hours = result[1] // 60
@@ -354,7 +354,7 @@ else:
             st.warning("Please enter your current residence as your starting and return point.")
             #st.write("Please enter your current residence as your starting and return point.")
         else:
-            result = route_method3(start_point, themes, total_spots, spots=spots)
+            result = route_method3(start_point, spots_num, themes, themes_num, spots=spots)
             st.balloons()
             st.write(f"Route: {' → '.join(result[0])}")
             hours = result[1] // 60
