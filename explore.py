@@ -13,7 +13,7 @@ from itertools import permutations
 import random
 
 #数据集
-df1 = pd.read_excel("Route Probabilities.xlsx", sheet_name='Sheet1')
+df1 = pd.read_excel("Data for Route.xlsx", sheet_name='transition')
 spots = {}
 probabilities = {}
 for index, row in df1.iterrows():
@@ -28,82 +28,16 @@ for index, row in df1.iterrows():
     }
     spots[row['spot_name']] = spot_data
 for index, row in df1.iterrows():
-    probs = {key: row[key] for key in row.index[7:39]}
+    probs = {key: row[key] for key in row.index[7:45]}
     probabilities[row['spot_name']] = probs
-df1_1 = pd.read_excel("Traffic_Method1.xlsx", sheet_name='Sheet1')
+df1_1 = pd.read_excel("Data for Route.xlsx", sheet_name='transportation')
 traffic_m1 = {}
 for index, row in df1_1.iterrows():
-    traf = {key: round(row[key]) for key in row.index[1:33]}
+    traf = {key: round(row[key]) for key in row.index[1:39]}
     traffic_m1[row['spot_name']] = traf
-df_2 = pd.read_excel('Spot Information_2.xlsx')
-
-#转移概率地标概率都不为0
-def route_method1(start_spot, total_spots, max_time, themes, ratio): #0<=ratio<=1 转移概率的ratio     
-    if start_spot == None:
-        current_spot = random.choice(list(spots.keys()))
-    else:
-        current_spot = start_spot
-    route = [current_spot]
-    total_time = spots[current_spot]['time']
-    visited_clusters = set([spots[current_spot]["cluster"]])
-    visited_themes = set(spots[current_spot]['themes'])
-
-    while len(route) < total_spots:
-        remaining_spots = [spot for spot in list(set(spots.keys())) if spots[spot]["cluster"] not in visited_clusters]
-        if not remaining_spots:
-            break
-        
-        if all(theme in visited_themes for theme in themes):
-            next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
-            next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
-                route.append(next_spot)
-                total_time += next_spot_info['time']
-                total_time += traffic_m1[current_spot][next_spot]
-                visited_themes.update(next_spot_info['themes'])
-                visited_clusters.add(next_spot_info["cluster"])
-            else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
-                if not remaining_spots:
-                    break
-                next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
-                next_spot_info = spots[next_spot]
-                route.append(next_spot)
-                visited_clusters.add(next_spot_info["cluster"])
-                total_time += next_spot_info['time']
-                total_time += traffic_m1[current_spot][next_spot]
-        else:
-            for theme in themes:
-                if theme not in visited_themes:
-                    for spot, info in spots.items():
-                        if theme in info['themes']:
-                            probabilities[current_spot][spot] *= 1.4
-            next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
-            next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
-                route.append(next_spot)
-                total_time += next_spot_info['time']
-                total_time += traffic_m1[current_spot][next_spot]
-                visited_themes.update(next_spot_info['themes'])
-                visited_clusters.add(next_spot_info["cluster"])
-            else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
-                if not remaining_spots:
-                    break
-                next_spot = max(remaining_spots, key=lambda x: ratio*probabilities[route[-1]][x] + (1-ratio)*spots[x]['spot_pro'])
-                next_spot_info = spots[next_spot]
-                route.append(next_spot)
-                visited_clusters.add(next_spot_info["cluster"])
-                total_time += next_spot_info['time']
-                total_time += traffic_m1[current_spot][next_spot]
-        
-        current_spot = next_spot
-    
-    return route, total_time
 
 #转移概率为0
 def route_method2(start_point, spots_num, themes, themes_num):
-    start_point = f"HK {start_point}"
     filtered_data = []
     all_spots = set()
     for i in range(len(themes), 0, -1):
@@ -141,7 +75,7 @@ def route_method2(start_point, spots_num, themes, themes_num):
                 origin = locations[i]
                 destination = locations[j]
                 directions_result = gmaps.directions(origin, destination, mode="transit", departure_time=datetime.now())
-                duration_in_traffic = directions_result[0]['legs'][0]['duration']['value'] / 60  # 转换为分钟
+                duration_in_traffic = directions_result[0]['legs'][0]['duration']['value'] / 60
                 matrix[i][j] = duration_in_traffic
     
     graph = matrix 
@@ -179,58 +113,30 @@ def route_method2(start_point, spots_num, themes, themes_num):
     return min_path, total_time, start_point, coordinate_start
 
 #不依赖转移概率和地表概率
-def route_method3(start_point, themes, total_spots, spots=spots): #必须输入start point 酒店/关口
-    start_point = f"HK {start_point}"
-    current_spot = start_point
-    route = [current_spot]
-    selectspots = []
-    for spot in list(set(spots.keys())):
-        for theme in spots[spot]['themes']:
-            if theme in themes:
-                selectspots.append(spot)
-    print(selectspots)
-    next_spot = random.choice(selectspots)
-    current_spot = next_spot
-    total_time = spots[current_spot]['time']
-    visited_spots = [current_spot]
-    visited_themes = set(spots[current_spot]['themes'])
-    route.append(current_spot)
+def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必须输入start point 酒店/关口
+    filtered_data = []
+    all_spots = set()
+    for i in range(len(themes), 0, -1):
+        filtered = df1[df1['themes'].astype(str).apply(lambda x: sum(theme in x for theme in themes) >= i)]
+        filtered = filtered[~filtered['spot_name'].isin(all_spots)]
+        all_spots.update(filtered['spot_name'])
+        filtered_data.append(filtered)
+    combined_df = pd.concat(filtered_data)
 
-    while len(route)-1 < total_spots:
-        remaining_spots = [spot for spot in list(set(spots.keys())) if spot not in visited_spots]
-        if not remaining_spots:
-            break
-        
-        if all(theme in visited_themes for theme in themes):
-            next_spot = random.choice(remaining_spots)
-            next_spot_info = spots[next_spot]
-            route.append(next_spot)
-            total_time += next_spot_info['time']
-            total_time += traffic_m1[current_spot][next_spot]
-            visited_spots.append(next_spot)
-            visited_themes.update(next_spot_info['themes'])
-        else:
-            for theme in themes:
-                if theme not in visited_themes:
-                    for spot in list(set(spots.keys())):
-                        if spot not in visited_spots:
-                            for theme in spots[spot]['themes']:
-                                if theme in themes:
-                                    selectspots = []
-                                    selectspots.append(spot)
-                                    print(selectspots)
-            next_spot = random.choice(selectspots)
-            print(next_spot)
-            next_spot_info = spots[next_spot]
-            route.append(next_spot)
-            total_time += next_spot_info['time']
-            total_time += traffic_m1[current_spot][next_spot]
-            visited_spots.append(next_spot)
-            visited_themes.update(next_spot_info['themes'])
-        
-        current_spot = next_spot
-    print(route)
-
+    combined_df['themes_count'] = combined_df['themes'].apply(lambda x: sum(theme in x for theme in themes))
+    sorted_df = combined_df.sort_values(by=['themes_count'], ascending=False)
+    top_spots = sorted_df['spot_name'].head(themes_num).tolist()
+    random.shuffle(top_spots)
+    if spots_num > themes_num:
+        remaining_spots = df1[~df1['spot_name'].isin(top_spots)]['spot_name'].tolist()
+        random.shuffle(remaining_spots)
+        selected_remaining_spots = remaining_spots[:spots_num - themes_num]
+        visited_spots = top_spots + selected_remaining_spots
+    else:
+        visited_spots = top_spots
+    route = [start_point] + visited_spots
+    total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
+  
     geolocator = GoogleV3(api_key='AIzaSyD7dw8EQZ0YN-Znw4ccEB4K4uakw0Cj2DM')
     gmaps = googlemaps.Client(key='AIzaSyD7dw8EQZ0YN-Znw4ccEB4K4uakw0Cj2DM')
     coordinate_start = geolocator.geocode(start_point)
@@ -242,9 +148,9 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
     print(coordinates)
     print(coordinates_info)
     
-    matrix = [[0 for _ in range(total_spots + 1)] for _ in range(total_spots + 1)]
-    for i in range(total_spots + 1):
-        for j in range(total_spots + 1):
+    matrix = [[0 for _ in range(spots_num + 1)] for _ in range(spots_num + 1)]
+    for i in range(spots_num + 1):
+        for j in range(spots_num + 1):
             if i != j:
                 origin = locations[i]
                 destination = locations[j]
@@ -260,6 +166,7 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
     min_path_weight = maxsize
     next_permutation=permutations(list(vertex.keys())[1:])
     min_path_order = None
+    
     for i in next_permutation: 
         current_pathweight = 0
         k = 0
@@ -267,15 +174,23 @@ def route_method3(start_point, themes, total_spots, spots=spots): #必须输入s
             current_pathweight += graph[k][j]  
             k = j  
         current_pathweight += graph[k][0]  
+
         if current_pathweight < min_path_weight:
             min_path_weight = current_pathweight
             min_path_order = [0] + list(i) + [0]
     min_path = []
     for order in min_path_order:
         min_path.append(vertex[order])
-    print(min_path_order)
-    total_time += matrix[0][min_path_order[1]] + matrix[min_path_order[-2]][0]
-    total_time = round(total_time)
+    total_duration = 0
+    for i in range(len(min_path) - 1):
+        origin_spot = min_path[i]
+        destination_spot = min_path[i + 1]
+        origin_index = route.index(origin_spot)
+        destination_index = route.index(destination_spot)
+        duration_in_traffic = matrix[origin_index][destination_index]
+        total_duration += duration_in_traffic
+    total_time = round(total_stay_time+total_duration)
+
     return min_path, total_time, start_point, coordinate_start
 
 #用户界面
@@ -289,12 +204,12 @@ st.write('Suitable for travelers who follow popular attractions and have ample t
 st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 3 (please select None)</h1>", unsafe_allow_html=True)
 st.write('Suitable for travelers who are willing to explore different attractions and have ample time.')
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
-selected_ratio = st.selectbox('Please choose the ratio of transition probability to topic probability.', options)
-#selected_ratio = st.slider('Please choose the ratio of transition probability to topic probability.', min_value=0.00, max_value=1.00, format="%.2f")
+selected_tratio = st.slider('Please choose the transition probability.', min_value=0.00, max_value=100.00, format="%.2f")
+selected_sratio = st.slider('Please choose the landmark probability.', min_value=0.00, max_value=100.00, format="%.2f")
 df_map = pd.read_excel("Spot Information.xlsx", sheet_name='Sheet1')
 Spots_Information = {}
-for index, row in df_map.iterrows():
-    themes = [theme.strip() for theme in row['theme'].split(',')]
+for index, row in df1.iterrows():
+    themes = [theme.strip() for theme in row['themes'].split(',')]
     spot_data = {
         'latitude': row['latitude'],
         'longitude': row['longitude'],
@@ -309,7 +224,7 @@ for spot_name, info in Spots_Information.items():
         icon=folium.Icon(icon='cloud')
     ).add_to(m)
 folium_static(m)
-if selected_ratio != 0 and selected_ratio != None:
+if selected_tratio != 0:
     st.subheader('Method 1')
     ratio = selected_ratio
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
@@ -333,7 +248,7 @@ if selected_ratio != 0 and selected_ratio != None:
                 icon=folium.Icon(icon='cloud')
             ).add_to(m_1)
         folium_static(m_1)
-elif selected_ratio == 0:
+elif selected_sratio != 0:
     st.subheader('Method 2')
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
@@ -363,7 +278,7 @@ elif selected_ratio == 0:
                     icon=folium.Icon(icon='cloud')
                 ).add_to(m_1)
             folium_static(m_1)
-elif selected_ratio == None:
+else:
     st.subheader('Method 3: Random Spots')
     spots = spots
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
@@ -395,4 +310,3 @@ elif selected_ratio == None:
                 ).add_to(m_1)
             folium_static(m_1)
     
-
