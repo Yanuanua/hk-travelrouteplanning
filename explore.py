@@ -346,7 +346,7 @@ elif selected_sratio != 0:
                 ).add_to(m_1)
             folium_static(m_1)
 else:
-    st.subheader('Method 3': TSP Random and Theme Priority Method)
+    st.subheader('Method 3: TSP Random and Theme Priority Method')
     spots = spots
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
