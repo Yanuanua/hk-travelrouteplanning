@@ -372,11 +372,13 @@ else:
                 tooltip=f"Your Starting and Return Point: {result[2]}",
                 icon=folium.Icon(icon='0')
                 ).add_to(m_1)
-            for idx, spot in enumerate(result[0][1:-1], start=1):
+            i=1
+            for spot in result[0][1:-1]:
                 folium.Marker(
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
-                    icon=folium.Icon(icon=idx)
+                    icon=folium.Icon(icon=i)
+                    i=i+1
                 ).add_to(m_1)
             folium_static(m_1)
     
