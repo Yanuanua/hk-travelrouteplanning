@@ -76,7 +76,7 @@ def route_method1(start_spot, total_spots, max_time, themes, tratio, sratio):
                 if theme not in visited_themes:
                     for spot, info in spots.items():
                         if theme in info['themes']:
-                            probabilities[current_spot][spot] *= 1.4
+                            probabilities[current_spot][spot] *= 1.8
             next_spot = max(remaining_spots, key=lambda x: tratio*probabilities[route[-1]][x] + sratio*spots[x]['spot_pro'])
             next_spot_info = spots[next_spot]
             if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
