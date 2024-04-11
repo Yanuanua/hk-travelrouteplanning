@@ -385,6 +385,6 @@ else:
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
                     icon=folium.Icon(icon=f"number_{idx}"
-                ).add_to(m1)
+                ).add_to(m_1)
             folium_static(m_1)
     
