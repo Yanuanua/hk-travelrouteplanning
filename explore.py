@@ -286,7 +286,7 @@ for spot_name, info in Spots_Information.items():
     ).add_to(m)
 folium_static(m)
 if selected_tratio != 0:
-    st.subheader('Method 1')
+    st.subheader('Method 1: Transition Probability, Time Constraint, and Theme Priority Method')
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     time_hours = st.slider('Please choose the time you expect to travel (hours)', min_value=0, max_value=24)
@@ -313,11 +313,11 @@ if selected_tratio != 0:
             ).add_to(m_1)
         folium_static(m_1)
 elif selected_sratio != 0:
-    st.subheader('Method 2')
+    st.subheader('Method 2: TSP Spot Probability and Theme Priority Method')
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num-1)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
@@ -346,12 +346,12 @@ elif selected_sratio != 0:
                 ).add_to(m_1)
             folium_static(m_1)
 else:
-    st.subheader('Method 3: Random Spots')
+    st.subheader('Method 3': TSP Random and Theme Priority Method)
     spots = spots
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num-1)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
