@@ -266,8 +266,8 @@ st.write('Suitable for tourists who follow popular attractions and have ample ti
 st.markdown("<h1 style='text-align: left; color: green; font-size: 20px;'>Method 3 (if transition probability = 0 and spot probability = 0)</h1>", unsafe_allow_html=True)
 st.write('Suitable for tourists who are willing to explore different attractions and have ample time.')
 options = [None, 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
-selected_tratio = st.slider('Please choose the weight of the transition probability.', min_value=0.00, max_value=100.00, format="%.2f")
-selected_sratio = st.slider('Please choose the weight of the spot probability.', min_value=0.00, max_value=100.00, format="%.2f")
+selected_tratio = st.slider('Please choose the weight of the transition probability.', min_value=0, max_value=100)
+selected_sratio = st.slider('Please choose the weight of the spot probability.', min_value=0, max_value=100)
 Spots_Information = {}
 for index, row in df1.iterrows():
     themes = [theme.strip() for theme in row['themes'].split(',')]
