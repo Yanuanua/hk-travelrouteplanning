@@ -30,11 +30,11 @@ for index, row in df1.iterrows():
     }
     spots[row['spot_name']] = spot_data
 for index, row in df1.iterrows():
-    probs = {key: row[key] for key in row.index[8:46]}
-    tran_post[row['spot_name']] = probs
+    probs1 = {key: row[key] for key in row.index[8:46]}
+    tran_post[row['spot_name']] = probs1
 for index, row in df1.iterrows():
-    probs = {key: row[key] for key in row.index[46:84]}
-    tran_pre[row['spot_name']] = probs
+    probs2 = {key: row[key] for key in row.index[46:84]}
+    tran_pre[row['spot_name']] = probs2
 df1_1 = pd.read_excel("Data for Route.xlsx", sheet_name='transportation')
 traffic_m1 = {}
 for index, row in df1_1.iterrows():
