@@ -128,7 +128,7 @@ def route_method2(start_point, spots_num, themes, themes_num, postpre):
     top_spots = sorted_df['spot_name'].head(themes_num).tolist()
     rows_count = len(top_spots)
     
-    if spots_num > themes_num:
+    if spots_num >= themes_num:
         filtered_df = df1[~df1['spot_name'].isin(top_spots)]
         sorted_df = filtered_df.sort_values(by='spot_pro', ascending=False)
         top_spots1 = sorted_df['spot_name'].head(spots_num - rows_count).tolist()
@@ -203,7 +203,7 @@ def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必
     sorted_df = combined_df.sort_values(by=['themes_count'], ascending=False)
     top_spots = sorted_df['spot_name'].head(themes_num).tolist()
     random.shuffle(top_spots)
-    if spots_num > themes_num:
+    if spots_num >= themes_num:
         remaining_spots = df1[~df1['spot_name'].isin(top_spots)]['spot_name'].tolist()
         random.shuffle(remaining_spots)
         selected_remaining_spots = remaining_spots[:spots_num - themes_num]
@@ -331,7 +331,7 @@ elif selected_sratio != 0:
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num-1)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
@@ -365,7 +365,7 @@ else:
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     themes = st.multiselect('Please choose the theme\(s\) you are interested in \(more than one can be chosen\).', list(set(theme for spot in spots.values() for theme in spot['themes'])))
-    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num-1)
+    themes_num = st.slider('Please select how many times you would like the selected theme\(s\) to appear on the route.', min_value=0, max_value=spots_num)
     if st.button('Generate your travel route!'):
         if not start_point:
             st.warning("Please enter your current residence as your starting and return point.")
