@@ -86,7 +86,6 @@ def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sr
                             tran_pre[current_spot][spot]*=1.8
                             spots[spot]['spot_post']*=1.8
                             spots[spot]['spot_pre']*=1.8
-                            (tratio*(postpre*tran_post[current_spot][spot]+(1-postpre)*tran_pre[current_spot][spot])+sratio*(postpre*spots[spot]['spot_post']+(1-postpre)*spots[spot]['spot_pre']))*= 1.8
             next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
             next_spot_info = spots[next_spot]
             if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
