@@ -128,10 +128,14 @@ def route_method2(start_point, spots_num, themes, themes_num, postpre):
     top_spots = sorted_df['spot_name'].head(themes_num).tolist()
     rows_count = len(top_spots)
     
-    if spots_num >= themes_num:
-        filtered_df = df1[~df1['spot_name'].isin(top_spots)]
-        sorted_df = filtered_df.sort_values(by='spot_pro', ascending=False)
+    if spots_num > themes_num:
+        combined_df = combined_df[~combined_df['spot_name'].isin(top_spots)]
+        #filtered_df = df1[~df1['spot_name'].isin(top_spots)]
+        #sorted_df = filtered_df.sort_values(by='spot_pro', ascending=False)
+        sorted_df = combined_df.sort_values(by='combined_pro', ascending=False)
         top_spots1 = sorted_df['spot_name'].head(spots_num - rows_count).tolist()
+    else:
+        top_spots1 = []
     visited_spots = top_spots + top_spots1
     route = [start_point] + visited_spots
     total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
@@ -203,10 +207,12 @@ def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必
     sorted_df = combined_df.sort_values(by=['themes_count'], ascending=False)
     top_spots = sorted_df['spot_name'].head(themes_num).tolist()
     random.shuffle(top_spots)
-    if spots_num >= themes_num:
+    if spots_num > themes_num:
         remaining_spots = df1[~df1['spot_name'].isin(top_spots)]['spot_name'].tolist()
         random.shuffle(remaining_spots)
         selected_remaining_spots = remaining_spots[:spots_num - themes_num]
+    else:
+        top_spots1 = []
     visited_spots = top_spots + selected_remaining_spots
     route = [start_point] + visited_spots
     total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
