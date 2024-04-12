@@ -212,7 +212,7 @@ def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必
         random.shuffle(remaining_spots)
         selected_remaining_spots = remaining_spots[:spots_num - themes_num]
     else:
-        top_spots1 = []
+        selected_remaining_spots = []
     visited_spots = top_spots + selected_remaining_spots
     route = [start_point] + visited_spots
     total_stay_time = df1[df1['spot_name'].isin(route)]['time'].sum()
