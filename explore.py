@@ -397,7 +397,7 @@ else:
                 folium.Marker(
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
-                    icon=folium.Icon(icon='{str(i)}', prefix='fa')
+                    icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
                     i = i + 1
                 ).add_to(m_1)
             folium_static(m_1)
