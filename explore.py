@@ -331,7 +331,7 @@ if selected_tratio != 0:
                 tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
                 icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
             ).add_to(m_1)
-        i = i + 1
+            i = i + 1
         folium_static(m_1)
 elif selected_sratio != 0:
     st.subheader('Method 2: TSP Spot Probability and Theme Priority Method')
