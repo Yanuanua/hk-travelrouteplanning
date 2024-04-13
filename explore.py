@@ -358,12 +358,14 @@ elif selected_sratio != 0:
                 tooltip=f"Your Starting and Return Point: {result[2]}",
                 icon=folium.Icon(icon='cloud')
                 ).add_to(m_1)
-            for spot in result[0][1:-1]:
+            i = 1
+            for spot in result[0][1:-2]:
                 folium.Marker(
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
-                    icon=folium.Icon(icon='cloud')
+                    icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
                 ).add_to(m_1)
+                i = i + 1
             folium_static(m_1)
 else:
     st.subheader('Method 3: TSP Random and Theme Priority Method')
@@ -400,11 +402,5 @@ else:
                     icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
                 ).add_to(m_1)
                 i = i + 1
-            for spot in result[0][0]:
-                folium.Marker(
-                    location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                    tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
-                    icon=folium.Icon(icon='0', prefix='fa')
-                ).add_to(m_1)
             folium_static(m_1)
     
