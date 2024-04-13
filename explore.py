@@ -393,14 +393,14 @@ else:
                 icon=folium.Icon(icon='cloud')
                 ).add_to(m_1)
             i = 1
-            for spot in result[1][-2]:
+            for spot in result[0][1:-2]:
                 folium.Marker(
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
                     icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
                 ).add_to(m_1)
                 i = i + 1
-            for spot in result[0]:
+            for spot in result[0][0]:
                 folium.Marker(
                     location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
                     tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
