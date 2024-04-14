@@ -43,10 +43,7 @@ for index, row in df1_1.iterrows():
 
 #Method1
 def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sratio):  
-    if start_spot == None:
-        current_spot = random.choice(list(spots.keys()))
-    else:
-        current_spot = start_spot
+    current_spot = start_spot
     route = [current_spot]
     total_time = spots[current_spot]['time']
     visited_clusters = set([spots[current_spot]["cluster"]])
@@ -315,24 +312,27 @@ if selected_tratio != 0:
     tratio = selected_tratio
     sratio = selected_sratio
     if st.button('Generate your travel route!'):
-        result = route_method1(start_spot, total_spots, max_time, themes, postpre=postpre,tratio=tratio, sratio=sratio)
-        st.balloons()
-        st.write(f"Route: {' → '.join(result[0])}")
-        hours = result[1] // 60
-        minutes = result[1] % 60
-        st.write(f"Total Time: {hours} hours {minutes} minutes")
-        st.write('\U00002600 Thank you for using our recommendation system and have a nice trip! \U00002600')
-        m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
-        points = []
-        i = 1
-        for spot in result[0]:
-            folium.Marker(
-                location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
-                tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
-                icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
-            ).add_to(m_1)
-            i = i + 1
-        folium_static(m_1)
+        if not start_spot:
+            st.warning("Please choose your start spot.")
+        else:
+            result = route_method1(start_spot, total_spots, max_time, themes, postpre=postpre,tratio=tratio, sratio=sratio)
+            st.balloons()
+            st.write(f"Route: {' → '.join(result[0])}")
+            hours = result[1] // 60
+            minutes = result[1] % 60
+            st.write(f"Total Time: {hours} hours {minutes} minutes")
+            st.write('\U00002600 Thank you for using our recommendation system and have a nice trip! \U00002600')
+            m_1 = folium.Map(location=[22.28056, 114.17222], zoom_start=12)
+            points = []
+            i = 1
+            for spot in result[0]:
+                folium.Marker(
+                    location=[Spots_Information[spot]['latitude'], Spots_Information[spot]['longitude']],
+                    tooltip=f"{spot} for {', '.join(Spots_Information[spot]['themes'])}",
+                    icon=folium.Icon(icon='fa-' + str(i), prefix='fa')
+                ).add_to(m_1)
+                i = i + 1
+            folium_static(m_1)
 elif selected_sratio != 0:
     st.subheader('Method 2: TSP Spot Probability and Theme Priority Method')
     postpre = st.slider('Please choose the ratio of post-pandemic data and pre-pandemic data.', min_value=1, max_value=9)
