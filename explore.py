@@ -273,7 +273,7 @@ def route_method3(start_point, spots_num, themes, themes_num, spots=spots): #必
 
     return min_path, total_time, start_point, coordinate_start
 
-#用户界面
+#User Interface
 st.title('Plan Your HK Travel Route ^_^')
 st.write('Hello dear tourists, welcome to our Hong Kong travel route recommendation system.')
 st.write('We now support 3 route recommendation methods.')
@@ -304,7 +304,7 @@ folium_static(m)
 selected_tratio = st.slider('Please choose the weight of the transition probability.', min_value=0, max_value=100)
 selected_sratio = st.slider('Please choose the weight of the spot probability.', min_value=0, max_value=100)
 if selected_tratio != 0:
-    st.subheader('Method 1: Transition Probability, Time Constraint, and Theme Priority Method')
+    st.subheader('Method 1: Transition & Spot Probability, Time Constraint, and Theme Priority Method')
     postpre = st.slider('Please choose the ratio of post-pandemic data and pre-pandemic data.', min_value=1, max_value=9)
     start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
@@ -370,7 +370,7 @@ elif selected_sratio != 0:
                 i = i + 1
             folium_static(m_1)
 else:
-    st.subheader('Method 3: TSP Random and Theme Priority Method')
+    st.subheader('Method 3: TSP Naive and Theme Priority Method')
     spots = spots
     start_point = st.text_input("Please enter your current residence as your starting and return point (It is recommended to enter the hotel where you live in Hong Kong or the customs port to Hong Kong).")
     spots_num = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
