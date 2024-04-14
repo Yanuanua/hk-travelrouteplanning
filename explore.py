@@ -60,14 +60,14 @@ def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sr
         if all(theme in visited_themes for theme in themes):
             next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
             next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time + 20:
                 route.append(next_spot)
                 total_time += next_spot_info['time']
                 total_time += traffic_m1[current_spot][next_spot]
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 20 <= max_time]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time + 20]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
@@ -88,14 +88,14 @@ def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sr
                             spots[spot]['spot_pre']*=1.8
             next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
             next_spot_info = spots[next_spot]
-            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time:
+            if total_time + next_spot_info['time'] + traffic_m1[current_spot][next_spot] <= max_time + 20:
                 route.append(next_spot)
                 total_time += next_spot_info['time']
                 total_time += traffic_m1[current_spot][next_spot]
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + 30 <= max_time]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time + 20]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
