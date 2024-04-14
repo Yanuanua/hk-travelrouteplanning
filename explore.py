@@ -303,7 +303,7 @@ selected_sratio = st.slider('Please choose the weight of the spot probability.',
 if selected_tratio != 0:
     st.subheader('Method 1: Transition & Spot Probability, Time Constraint, and Theme Priority Method')
     postpre = st.slider('Please choose the ratio of post-pandemic data and pre-pandemic data.', min_value=1, max_value=9)
-    start_spot = st.selectbox('Please choose your start spot.', [None] + list(spots.keys()))
+    start_spot = st.selectbox('Please choose your start spot.', list(spots.keys()))
     total_spots = st.slider('Please choose the number of spots you would like to visit.', min_value=1, max_value=len(spots))
     time_hours = st.slider('Please choose the time you expect to travel (hours)', min_value=0, max_value=24)
     time_minutes = st.slider('Please choose the time you expect to travel (minutes)', min_value=0, max_value=59)
