@@ -67,7 +67,7 @@ def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sr
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time + 20]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + traffic_m1[current_spot][spot] <= max_time + 20]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
@@ -95,7 +95,7 @@ def route_method1(start_spot, total_spots, max_time, themes, postpre, tratio, sr
                 visited_themes.update(next_spot_info['themes'])
                 visited_clusters.add(next_spot_info["cluster"])
             else:
-                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time <= max_time + 20]
+                remaining_spots = [spot for spot in remaining_spots if spots[spot]["time"] + total_time + traffic_m1[current_spot][spot] <= max_time + 20]
                 if not remaining_spots:
                     break
                 next_spot = max(remaining_spots, key=lambda x: tratio*(postpre*tran_post[route[-1]][x]+(1-postpre)*tran_pre[route[-1]][x])+sratio*(postpre*spots[x]['spot_post']+(1-postpre)*spots[x]['spot_pre']))
