@@ -127,7 +127,7 @@ def route_method2(start_point, spots_num, themes, themes_num, postpre):
     
     if spots_num > themes_num:
         combined_df = combined_df[~combined_df['spot_name'].isin(top_spots)]
-        combined_df = combined_df[~combined_df['themes'].apply(lambda x: any(theme in x for theme in themes))]
+        combined_df = combined_df[~combined_df['themes'].apply(lambda x: any(theme in themes for theme in x.split(', ')))]
         sorted_df = combined_df.sort_values(by='combined_pro', ascending=False)
         top_spots1 = sorted_df['spot_name'].head(spots_num - rows_count).tolist()
     else:
